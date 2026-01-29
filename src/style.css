@@ -320,30 +320,29 @@ img {
 }
 
 .float-1 {
-  top: 50%;
-  left: 50%;
+  top: 85%;
+  left: 85%;
   transform: translate(-50%, -50%);
-  /* Centered-ish */
   z-index: 3;
 }
 
 .float-2 {
-  top: 10%;
-  right: 0%;
+  top: 5%;
+  right: -15%;
   animation-delay: 1.5s;
   transform: scale(0.9);
 }
 
 .float-3 {
-  bottom: 15%;
-  left: 0%;
+  bottom: 0%;
+  left: -15%;
   animation-delay: 2.5s;
   transform: scale(0.9);
 }
 
 .float-4 {
-  top: 20%;
-  left: -10%;
+  top: 10%;
+  left: -20%;
   animation-delay: 0.5s;
   transform: scale(0.8);
 }
