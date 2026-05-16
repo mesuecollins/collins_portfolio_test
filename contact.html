@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <section id="contact" class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h2 class="section-title">Get In Touch</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+            <div class="glass" style="padding: 2rem; border-radius: 12px;">
+              <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">Contact Info</h3>
+              <p style="margin-bottom: 1rem; color: var(--color-text-muted);">Open for opportunities in Cloud Engineering, KMP, and Hardware Diagnostics.</p>
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <p><i class="fa-solid fa-envelope" style="margin-right: 1rem; color: var(--color-primary);"></i> contact@collinsmesue.com</p>
+                <p><i class="fa-solid fa-location-dot" style="margin-right: 1rem; color: var(--color-primary);"></i> Ishaka, Bushenyi, Uganda</p>
+              </div>
+              <div class="social-links" style="margin-top: 2rem; display: flex; gap: 1.5rem;">
+                <a href="https://www.linkedin.com/in/collins-m-b45837103/" target="_blank" style="font-size: 1.5rem; color: var(--color-text);"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" style="font-size: 1.5rem; color: var(--color-text);"><i class="fa-brands fa-github"></i></a>
+                <a href="#" style="font-size: 1.5rem; color: var(--color-text);"><i class="fa-brands fa-twitter"></i></a>
+              </div>
+            </div>
+            
+            <div class="glass" style="padding: 2rem; border-radius: 12px;">
+              <form id="contact-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label for="user_name">Name</label>
+                  <input type="text" id="user_name" name="user_name" placeholder="Your Name" required style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem; border-radius: 6px; color: white;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label for="user_email">Email</label>
+                  <input type="email" id="user_email" name="user_email" placeholder="your@email.com" required style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem; border-radius: 6px; color: white;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" rows="5" placeholder="How can I help?" required style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem; border-radius: 6px; color: white;"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

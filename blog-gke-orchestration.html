@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+
+      <section class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--color-primary); line-height: 1.2;">Advanced Container Orchestration with GKE & GitOps</h1>
+          <span style="color: var(--color-text-muted); display: block; margin-bottom: 2rem;">By Mesue Collins Asibong &bull; Cloud Engineering</span>
+          
+          <img src="/images/gke_orchestration_preview.png" alt="GKE and GitOps Orchestration" style="width: 100%; border-radius: 12px; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.1);" />
+
+          <div class="blog-content" style="max-width: 800px; color: var(--color-text); font-size: 1.1rem; line-height: 1.8;">
+            <p>Moving from basic Kubernetes deployments to managing thousands of microservices at a global scale requires paradigm shifts in orchestration, security, and deployment methodologies. Based on a decade of designing distributed systems, here is an advanced perspective on orchestrating containerized workloads on Google Kubernetes Engine (GKE).</p>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="margin-bottom: 1rem; color: var(--color-accent); text-align: center;">Advanced GKE GitOps & Service Mesh</h4>
+              <div class="mermaid" style="text-align: center;">
+                flowchart LR
+                  classDef gcp fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef sec fill:#ea4335,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef argo fill:#f4a261,stroke:#fff,stroke-width:2px,color:#000
+                  
+                  Dev[Developer] -->|Merge to Main| Git[GitHub Repo]
+                  Git -->|Webhook| Argo[ArgoCD]:::argo
+                  
+                  subgraph "GKE Cluster"
+                    Argo -->|Sync| Rollout[Argo Rollouts]:::argo
+                    
+                    subgraph "ASM Zero-Trust Mesh"
+                      Rollout -->|Traffic 95%| Stable[Stable Pods]:::k8s
+                      Rollout -->|Traffic 5%| Canary[Canary Pods]:::k8s
+                      Stable -.->|mTLS| Backend[Backend Services]:::sec
+                      Canary -.->|mTLS| Backend
+                    end
+                  end
+                  
+                  Prometheus[(Cloud Monitoring)]:::gcp -.->|Metrics| Rollout
+                  Stable -.->|SLIs| Prometheus
+                  Canary -.->|SLIs| Prometheus
+              </div>
+            </div>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 1: Enabling Node Auto-Provisioning (NAP)</h3>
+            <p>Before executing configurations, we define our environment variables to ensure consistency across scripts.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>export PROJECT_ID="my-gcp-project"
+export CLUSTER_NAME="enterprise-cluster"
+export REGION="us-central1"
+export NAMESPACE="production"
+
+gcloud config set project $PROJECT_ID</code></pre>
+            <p>Basic CPU-based autoscaling is reactive. Instead of manually defining rigid node pools, we enable NAP. GKE automatically observes pending Pods and dynamically provisions new node pools with the exact right-sized machine types and architectures required by the workloads.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gcloud container clusters update $CLUSTER_NAME \
+    --enable-autoprovisioning \
+    --min-cpu 10 --max-cpu 100 \
+    --min-memory 64 --max-memory 512 \
+    --region $REGION</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 2: Installing Anthos Service Mesh (ASM)</h3>
+            <p>In a zero-trust architecture, the internal cluster network is considered hostile. We deploy <strong>Anthos Service Mesh</strong> (a managed distribution of Istio) to inject Envoy sidecars into every Pod. This ensures all pod-to-pod communication is cryptographically encrypted via strict mTLS.</p>
+            <p>First, we download the Google-provided <code>asmcli</code> tool and validate it:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>curl https://storage.googleapis.com/csm-artifacts/asm/asmcli_1.19 > asmcli
+chmod +x asmcli</code></pre>
+            <p>Next, we provision the managed control plane:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>./asmcli install \
+  --project_id $PROJECT_ID \
+  --cluster_name $CLUSTER_NAME \
+  --cluster_location $REGION \
+  --fleet_id $PROJECT_ID \
+  --managed \
+  --enable_all</code></pre>
+            <p>Once installed, we label our target namespace so that GKE automatically injects the Envoy sidecars into our pods:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>kubectl create namespace $NAMESPACE
+kubectl label namespace $NAMESPACE istio-injection=enabled</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 3: Installing ArgoCD & Argo Rollouts</h3>
+            <p>Enterprise orchestration demands sophisticated rollout strategies. Deploying new images via <code>kubectl apply</code> is prone to outages. Instead, we use <strong>ArgoCD</strong> for GitOps state reconciliation and <strong>Argo Rollouts</strong> for progressive Canary deployments.</p>
+            <p>Install ArgoCD into your cluster:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</code></pre>
+            <p>Install Argo Rollouts controller:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>kubectl create namespace argo-rollouts
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 4: Configuring the Canary Rollout Manifest</h3>
+            <p>We define an Argo Rollout custom resource that replaces standard Kubernetes Deployments. Save the following as <code>rollout.yaml</code>:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: payment-service
+  namespace: production
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/my-gcp-project/payment:v2.0.0
+  strategy:
+    canary:
+      steps:
+      - setWeight: 5
+      - pause: {duration: 10m}
+      - analysis:
+          templates:
+          - templateName: success-rate
+      - setWeight: 20
+      - pause: {duration: 10m}</code></pre>
+            <p>Apply the manifest to the cluster: <code>kubectl apply -f rollout.yaml</code>.</p>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 5: Automated Metric Analysis & Rollback</h3>
+            <p>When a new image is pushed, the orchestrator routes only 5% of live traffic to the new Canary pods. It then continuously queries Cloud Monitoring for error rates (5xx) and latency anomalies.</p>
+            <p>You can monitor the automated progression via the kubectl plugin:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>kubectl argo rollouts get rollout payment-service --watch</code></pre>
+            <p>If the Service Level Indicators (SLIs) remain stable, traffic is automatically incremented. If anomalies are detected, an automatic rollback is triggered without human intervention. To manually abort and instantly rollback, run:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>kubectl argo rollouts abort payment-service</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Summary</h3>
+            <p>Enterprise GKE orchestration transcends simply scheduling containers. It is the integration of predictive autoscaling, cryptographic identity for workloads, and mathematically verified rollout processes to achieve true operational excellence at scale.</p>
+            
+            <!-- Mermaid JS -->
+            <script type="module">
+              import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+              mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            </script>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <!-- Projects Section -->
+      <section id="projects" class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h2 class="section-title">Featured Projects</h2>
+          <div class="projects-grid">
+
+            <!-- Project 1 -->
+            <article class="project-card glass">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>TekTrak</h3>
+                  <span class="tag">Enterprise</span>
+                </div>
+                <p class="project-desc">A unified shop management system built with <strong>Kotlin
+                    Multiplatform</strong> (Android/iOS) and <strong>Firebase</strong>. Handles inventory, ticketing,
+                  and repairs tracking.</p>
+                <ul class="tech-stack">
+                  <li>KMP</li>
+                  <li>Compose Multiplatform</li>
+                  <li>Firebase</li>
+                  <li>Cloud Functions</li>
+                </ul>
+                <div class="project-links">
+                  <a href="https://tektrak.macz.tech" target="_blank" class="btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Website</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="project-card glass">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>FacePass</h3>
+                  <span class="tag">Computer Vision</span>
+                </div>
+                <p class="project-desc">Advanced face recognition system for secure access control and attendance tracking. Built with high-performance biometric algorithms.</p>
+                <ul class="tech-stack">
+                  <li>OpenCV</li>
+                  <li>TensorFlow</li>
+                  <li>Python</li>
+                  <li>Android</li>
+                </ul>
+                <div class="project-links">
+                  <a href="https://youtube.com/shorts/V19vKFnk4Xw?si=uv1HKWF5iCpJyv8f" target="_blank" class="btn-sm"><i class="fa-brands fa-youtube"></i> View Demo</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-card glass">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>MacZ Repair Diagnostics</h3>
+                  <span class="tag">Hardware</span>
+                </div>
+                <p class="project-desc">Advanced component-level repair services and disaster recovery initiatives.
+                  Successfully recovered critical data for businesses affected by Kampala floods.</p>
+                <ul class="tech-stack">
+                  <li>Microsoldering</li>
+                  <li>Schematic Analysis</li>
+                  <li>Data Recovery</li>
+                </ul>
+                <div class="project-links">
+                  <a href="#" class="btn-sm"><i class="fa-solid fa-wrench"></i> Services</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 4 -->
+            <article class="project-card glass">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>PromoBot</h3>
+                  <span class="tag">Automation</span>
+                </div>
+                <p class="project-desc">WhatsApp GUI automation software designed for high-efficiency marketing campaigns. Streamlines bulk messaging and customer engagement through intelligent automation.</p>
+                <ul class="tech-stack">
+                  <li>Python</li>
+                  <li>PyAutoGUI</li>
+                  <li>Selenium</li>
+                  <li>WhatsApp API</li>
+                </ul>
+                <div class="project-links">
+                  <a href="#" class="btn-sm"><i class="fa-solid fa-robot"></i> View Tool</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

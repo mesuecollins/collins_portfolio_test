@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+
+      <section class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--color-primary); line-height: 1.2;">Deploy Kubernetes Load Balancer Service with Terraform on GCP</h1>
+          <span style="color: var(--color-text-muted); display: block; margin-bottom: 2rem;">By Mesue Collins Asibong &bull; Cloud Engineering</span>
+          
+          <img src="/images/k8s_terraform_preview.png" alt="Kubernetes and Terraform Architecture" style="width: 100%; border-radius: 12px; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.1);" />
+
+          <div class="blog-content" style="max-width: 800px; color: var(--color-text); font-size: 1.1rem; line-height: 1.8;">
+            <p>Managing cloud infrastructure manually is a recipe for inconsistency and human error. In this technical deep dive, we explore how to use <strong>Terraform</strong> (Infrastructure as Code) to provision a production-grade <strong>Google Kubernetes Engine (GKE)</strong> cluster and expose it to the internet using a <strong>Layer 4 Load Balancer</strong>.</p>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="margin-bottom: 1rem; color: var(--color-accent); text-align: center;">Terraform Infrastructure Workflow</h4>
+              <div class="mermaid" style="text-align: center;">
+                graph LR
+                  TF[Terraform Config] -->|Plan/Apply| GCPAPI[GCP Compute API]
+                  GCPAPI -->|Provision| GKE[GKE Cluster]
+                  GKE -->|Deploy| Service[K8s Service Type: LB]
+                  Service -->|Auto-Create| GCLB[Google Cloud Load Balancer]
+                  GCLB -->|Routes| Pods[Application Pods]
+                  
+                  classDef default fill:#1e293b,stroke:#334155,color:#fff
+                  classDef highlight fill:#4285F4,stroke:#fff,color:#fff
+                  class TF,GKE,GCLB highlight
+              </div>
+            </div>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 1: Defining the Provider and GKE Cluster</h3>
+            <p>The core of our IaC approach is the <code>google_container_cluster</code> resource. We specify our project, region, and initial node count. By using Terraform, we ensure that the cluster can be destroyed and recreated exactly the same way in any GCP project.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>resource "google_container_cluster" "primary" {
+  name     = "my-gke-cluster"
+  location = "us-central1"
+  initial_node_count = 3
+  
+  node_config {
+    machine_type = "e2-medium"
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+}</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 2: Authenticating with the K8s Provider</h3>
+            <p>Once the cluster is up, Terraform needs to "talk" to the Kubernetes API to manage services. We use the <code>kubernetes</code> provider and pass it the credentials generated by the GKE resource.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>provider "kubernetes" {
+  host                   = "https://${google_container_cluster.primary.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
+}</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 3: Provisioning the Load Balancer Service</h3>
+            <p>The magic of GKE is the seamless integration with Google's physical network. By defining a <code>kubernetes_service</code> with <code>type = "LoadBalancer"</code>, GKE automatically requests the GCP API to provision a public static IP and a Cloud Load Balancer that routes traffic to our pods.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>resource "kubernetes_service" "nginx_lb" {
+  metadata {
+    name = "nginx-loadbalancer"
+  }
+  spec {
+    selector = {
+      app = "nginx"
+    }
+    port {
+      port        = 80
+      target_port = 80
+    }
+    type = "LoadBalancer"
+  }
+}</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 4: Verification and Clean-Up</h3>
+            <p>Run <code>terraform apply</code> and wait for the external IP to be provisioned. You can verify the status via <code>kubectl get svc</code>. When finished, a single <code>terraform destroy</code> removes all provisioned resources, ensuring you only pay for what you use.</p>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Summary</h3>
+            <p>Combining Terraform with GKE provides a robust foundation for any cloud-native application. It allows for reproducible environments, version-controlled infrastructure, and automated scaling that handles traffic spikes gracefully while maintaining high availability.</p>
+            
+            <!-- Mermaid JS -->
+            <script type="module">
+              import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+              mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            </script>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

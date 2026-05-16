@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+<section id="blog" class="section">
+        <div class="container">
+          <h2 class="section-title">Technical Blog</h2>
+          <p style="text-align: center; color: var(--color-text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Insights and technical deep dives derived from my speaking engagements over the last five years, focusing on Google Cloud Platform, Kubernetes, and Cloud-Native architectures.
+          </p>
+          <div class="projects-grid">
+
+            <!-- Blog Post 1 -->
+            <a href="/blog-k8s-terraform.html" class="project-card glass" style="display: block; text-decoration: none; color: inherit; cursor: pointer;">
+              <div style="padding: 2.5rem 2rem; text-align: center; font-size: 3.5rem; color: var(--color-primary); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <i class="fa-brands fa-google"></i>
+              </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>Scaling Microservices with GKE</h3>
+                  <span class="tag">GCP / K8s</span>
+                </div>
+                <span style="display: block; font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;"><i class="fa-regular fa-calendar"></i> GDG DevFest 2023</span>
+                <p class="project-desc">A comprehensive guide on managing scalable and resilient microservices using Google Kubernetes Engine, expanding on my talk at GDG DevFest.</p>
+                <div class="project-links">
+                  <span class="btn-sm" style="color: var(--color-primary);">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Blog Post 2 -->
+            <a href="/blog-wordpress-gcp.html" class="project-card glass" style="display: block; text-decoration: none; color: inherit; cursor: pointer;">
+              <div style="padding: 2.5rem 2rem; text-align: center; font-size: 3.5rem; color: var(--color-accent); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-server"></i>
+              </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>Deploying WordPress on GCP</h3>
+                  <span class="tag">DevOps / IaC</span>
+                </div>
+                <span style="display: block; font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;"><i class="fa-regular fa-calendar"></i> Cloud Community Days 2022</span>
+                <p class="project-desc">A complete walkthrough of deploying a highly available WordPress website on Google Cloud Platform using Compute Engine and Cloud SQL.</p>
+                <div class="project-links">
+                  <span class="btn-sm" style="color: var(--color-primary);">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Blog Post 3 -->
+            <a href="/blog-gke-orchestration.html" class="project-card glass" style="display: block; text-decoration: none; color: inherit; cursor: pointer;">
+              <div style="padding: 2.5rem 2rem; text-align: center; font-size: 3.5rem; color: var(--color-secondary); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-cloud"></i>
+              </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>Orchestrating Containers with GKE</h3>
+                  <span class="tag">Serverless</span>
+                </div>
+                <span style="display: block; font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;"><i class="fa-regular fa-calendar"></i> GDSC Summit 2021</span>
+                <p class="project-desc">Best practices and deep dives into orchestrating containerized applications effectively using Google Kubernetes Engine.</p>
+                <div class="project-links">
+                  <span class="btn-sm" style="color: var(--color-primary);">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Blog Post 4 -->
+            <a href="/blog-compute-startup.html" class="project-card glass" style="display: block; text-decoration: none; color: inherit; cursor: pointer;">
+              <div style="padding: 2.5rem 2rem; text-align: center; font-size: 3.5rem; color: #f4a261; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <i class="fa-solid fa-terminal"></i>
+              </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>Remote Startup Scripts</h3>
+                  <span class="tag">GCE / Bash</span>
+                </div>
+                <span style="display: block; font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 0.5rem;"><i class="fa-brands fa-youtube"></i> YouTube Tutorial</span>
+                <p class="project-desc">A step-by-step guide on automating Compute Engine instance configurations using remote bash scripts stored in Google Cloud Storage.</p>
+                <div class="project-links">
+                  <span class="btn-sm" style="color: var(--color-primary);">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

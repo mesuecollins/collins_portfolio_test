@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+
+      <section class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--color-primary); line-height: 1.2;">Deploying a Highly Available WordPress Website on GCP</h1>
+          <span style="color: var(--color-text-muted); display: block; margin-bottom: 2rem;">By Mesue Collins Asibong &bull; Cloud Engineering</span>
+          
+          <img src="/images/wp_gcp_preview.png" alt="Stateless WordPress Architecture on GCP" style="width: 100%; border-radius: 12px; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.1);" />
+
+          <div class="blog-content" style="max-width: 800px; color: var(--color-text); font-size: 1.1rem; line-height: 1.8;">
+            <p>Traditional WordPress deployments often rely on a single server, creating a single point of failure. In this tutorial, we will architect and deploy an enterprise-grade, stateless WordPress infrastructure on Google Cloud Platform that can scale to millions of visitors while maintaining 99.9% availability.</p>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="margin-bottom: 1rem; color: var(--color-accent); text-align: center;">Enterprise Stateless WordPress Architecture</h4>
+              <div class="mermaid" style="text-align: center;">
+                graph TD
+                  subgraph "Google Cloud Platform"
+                    LB[Global External Load Balancer]:::gcp
+                    
+                    subgraph "Managed Instance Group (MIG)"
+                      VM1[WP Node 1]:::vm
+                      VM2[WP Node 2]:::vm
+                      VM3[WP Node N...]:::vm
+                    end
+                    
+                    subgraph "Managed State Layer"
+                      DB[(Cloud SQL MySQL)]:::db
+                      Cache[(Cloud Memorystore Redis)]:::db
+                      Media[(Cloud Storage Bucket)]:::db
+                    end
+                    
+                    LB --> VM1
+                    LB --> VM2
+                    LB --> VM3
+                    
+                    VM1 & VM2 & VM3 -->|JDBC| DB
+                    VM1 & VM2 & VM3 -->|Object API| Media
+                    VM1 & VM2 & VM3 -->|TCP 6379| Cache
+                  end
+                  
+                  classDef gcp fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef vm fill:#34a853,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef db fill:#f4b400,stroke:#fff,stroke-width:2px,color:#fff
+              </div>
+            </div>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 1: Provisioning Managed State (Cloud SQL & Redis)</h3>
+            <p>A stateless architecture requires that no data be stored on the application servers. We first provision our managed database and cache.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code># Create Cloud SQL Instance
+gcloud sql instances create wp-db-instance \
+    --database-version=MYSQL_8_0 \
+    --tier=db-f1-micro \
+    --region=us-central1
+
+# Create Cloud Memorystore for Redis
+gcloud redis instances create wp-cache \
+    --size=1 \
+    --region=us-central1</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 2: Externalizing Media to Cloud Storage</h3>
+            <p>WordPress uploads normally go to <code>wp-content/uploads</code>. On GCP, we use the <strong>GCS Fuse</strong> or a specialized plugin to offload these assets to a bucket, allowing every node in the MIG to see the same media library.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gsutil mb -l us-central1 gs://wp-media-assets-${PROJECT_ID}
+gsutil iam ch allUsers:objectViewer gs://wp-media-assets-${PROJECT_ID}</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 3: Creating the Stateless VM Image</h3>
+            <p>We create a "Golden Image" with Apache, PHP, and WordPress pre-installed, but configured to use environment variables for database credentials. This allows the image to be identical across all scaling nodes.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code># Configuration snippet for wp-config.php
+define('DB_NAME', getenv('WP_DB_NAME'));
+define('DB_USER', getenv('WP_DB_USER'));
+define('DB_PASSWORD', getenv('WP_DB_PASS'));
+define('DB_HOST', getenv('WP_DB_HOST'));</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 4: Configuring Autoscaling & Load Balancing</h3>
+            <p>We deploy the image into a Managed Instance Group (MIG). We set an autoscaling policy based on CPU utilization (e.g., scale out when CPU > 60%) and attach a Global HTTP(S) Load Balancer to distribute traffic and handle SSL termination.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gcloud compute instance-groups managed set-autoscaling wp-mig \
+    --max-num-replicas=10 \
+    --target-cpu-utilization=0.6 \
+    --cool-down-period=90</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Summary</h3>
+            <p>By decoupling the application (MIG) from the state (SQL, Storage, Redis), we've created a WordPress site that is not only faster but virtually immune to server failures. This architecture is the foundation for any high-traffic enterprise web application on the cloud.</p>
+            
+            <!-- Mermaid JS -->
+            <script type="module">
+              import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+              mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            </script>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

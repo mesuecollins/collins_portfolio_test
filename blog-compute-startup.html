@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/cloud-favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <title>Collins Mesue | Cloud & Hardware Engineer</title>
+  <meta name="description"
+    content="Portfolio of Mesue Collins Asibong - Google Certified Cloud Engineer, Kotlin Multiplatform Specialist, and Hardware Engineer.">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      // Initialize EmailJS - Please replace "YOUR_PUBLIC_KEY" with your actual key
+      emailjs.init({
+        publicKey: "87UqFbCUt16YBYUCn",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="glass" id="navbar">
+      <div class="container nav-content">
+        <a href="/" class="logo">Collins Mesue<span class="dot">.</span></a>
+        <ul class="nav-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li><a href="/skills.html">Skills</a></li>
+          <li><a href="/speaking.html">Speaking</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/contact.html" class="btn-primary">Contact</a></li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode" class="theme-btn">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <div class="mobile-toggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    <main>
+
+      <section class="section">
+        <div class="container" style="padding-top: 4rem;">
+          <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--color-primary); line-height: 1.2;">Deploying Compute Instances with Remote Startup Scripts</h1>
+          <span style="color: var(--color-text-muted); display: block; margin-bottom: 2rem;">By Mesue Collins Asibong &bull; Cloud Engineering</span>
+          
+          <img src="/images/compute_startup_preview.png" alt="Compute Instance Startup Scripts" style="width: 100%; border-radius: 12px; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.1);" />
+
+          <div class="blog-content" style="max-width: 800px; color: var(--color-text); font-size: 1.1rem; line-height: 1.8;">
+            <p>Automating Compute Engine deployments is critical for scalable infrastructure. While passing a local startup script directly via metadata is common for quick tests, externalizing your configuration scripts to Cloud Storage is the enterprise standard. It enables version control, dynamic updates without recreating instances, and strict IAM boundaries.</p>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="margin-bottom: 1rem; color: var(--color-accent); text-align: center;">Remote Script Execution Architecture</h4>
+              <div class="mermaid" style="text-align: center;">
+                flowchart TD
+                  classDef gcp fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef vm fill:#f4a261,stroke:#fff,stroke-width:2px,color:#000
+                  classDef iam fill:#ea4335,stroke:#fff,stroke-width:2px,color:#fff
+                  
+                  Dev([Developer]) -->|gsutil cp| GCS[(Cloud Storage Bucket)]:::gcp
+                  
+                  subgraph "Compute Engine (GCE)"
+                    VM[VM Instance]:::vm
+                  end
+                  
+                  SA{Service Account}:::iam -.->|IAM Authorization| GCS
+                  VM -->|Impersonates| SA
+                  
+                  VM -->|Boot up| API[Google Metadata Server]:::gcp
+                  API -.->|startup-script-url| VM
+                  VM -->|HTTP GET| GCS
+                  GCS -.->|install-web.sh| VM
+                  
+                  VM -->|Executes Script| Web[Apache Web Server]:::gcp
+              </div>
+            </div>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 1: Setting up the Execution Environment</h3>
+            <p>We begin by defining environment variables for our project, region, and the unique Cloud Storage bucket name we will create. Cloud Storage buckets require globally unique names, so appending the project ID is a best practice.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>export PROJECT_ID=$(gcloud config get-value project)
+export REGION="us-central1"
+export ZONE="us-central1-a"
+export BUCKET_NAME="gs://${PROJECT_ID}-startup-scripts"
+
+gcloud config set compute/region $REGION
+gcloud config set compute/zone $ZONE</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 2: Creating the Cloud Storage Bucket</h3>
+            <p>We use the <code>gsutil</code> or the modern <code>gcloud storage</code> command to provision our regional bucket. Keeping the bucket in the same region as the compute instances reduces egress latency and avoids cross-region network charges during the boot sequence.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gcloud storage buckets create $BUCKET_NAME \
+    --location=$REGION \
+    --uniform-bucket-level-access</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 3: Writing and Uploading the Bash Script</h3>
+            <p>Our goal is to deploy an Apache web server that automatically serves a custom HTML page upon boot. We'll write the script locally and then upload it to our bucket.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>cat << 'EOF' > install-web.sh
+#!/bin/bash
+apt-get update
+apt-get install -y apache2
+cat << 'INDEX' > /var/www/html/index.html
+<html><body>
+<h1>Hello World from a Remote Startup Script!</h1>
+<p>Deployed automatically on boot.</p>
+</body></html>
+INDEX
+systemctl restart apache2
+EOF
+
+gcloud storage cp install-web.sh $BUCKET_NAME/install-web.sh</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 4: Provisioning the Compute Instance</h3>
+            <p>Now, we create the Compute Engine VM. The critical flag here is <code>--metadata startup-script-url=...</code>. By passing the Cloud Storage URI, the Compute Engine guest environment automatically authenticates using the default compute service account, downloads the script, and executes it as the <code>root</code> user during boot.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gcloud compute instances create web-server-vm \
+    --machine-type=e2-micro \
+    --image-family=debian-11 \
+    --image-project=debian-cloud \
+    --scopes=default,storage-ro \
+    --tags=http-server \
+    --metadata=startup-script-url=${BUCKET_NAME}/install-web.sh</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 5: Enabling Firewall Rules & Verifying</h3>
+            <p>Because we tagged the instance with <code>http-server</code>, we must ensure the VPC firewall allows inbound traffic on port 80 to that tag.</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>gcloud compute firewall-rules create default-allow-http \
+    --direction=INGRESS \
+    --priority=1000 \
+    --network=default \
+    --action=ALLOW \
+    --rules=tcp:80 \
+    --source-ranges=0.0.0.0/0 \
+    --target-tags=http-server</code></pre>
+            <p>Once the VM completes its boot cycle (which takes about 30 seconds), grab the external IP address:</p>
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>EXTERNAL_IP=$(gcloud compute instances describe web-server-vm \
+  --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+
+curl http://$EXTERNAL_IP</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Step 6: Optimizing for Idempotency</h3>
+            <p>Startup scripts run on <i>every</i> boot. To prevent unnecessary package re-installations or service disruptions during reboots, scripts must be idempotent. We can optimize our script by checking if the web server is already configured before executing.</p>
+            
+            <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+              <h4 style="margin-bottom: 1rem; color: var(--color-accent); text-align: center;">Idempotent Execution Flow</h4>
+              <div class="mermaid" style="text-align: center;">
+                flowchart LR
+                  classDef state fill:#326ce5,stroke:#fff,stroke-width:2px,color:#fff
+                  classDef action fill:#ea4335,stroke:#fff,stroke-width:2px,color:#fff
+                  
+                  Start([System Boot]) --> Check{Is Apache Installed?}
+                  Check -->|Yes| Skip[Skip Installation]:::state
+                  Check -->|No| Install[Run apt-get install]:::action
+                  Install --> StartService[Enable & Start Service]:::action
+                  Skip --> End([Boot Complete])
+                  StartService --> End
+              </div>
+            </div>
+
+            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1.5rem; color: #a5b4fc; font-family: monospace;"><code>cat << 'EOF' > install-web-optimized.sh
+#!/bin/bash
+if ! command -v apache2 &> /dev/null
+then
+    echo "Apache not found. Installing..."
+    apt-get update
+    apt-get install -y apache2
+    cat << 'INDEX' > /var/www/html/index.html
+    <html><body>
+    <h1>Optimized Remote Startup Script</h1>
+    <p>Idempotent execution verified.</p>
+    </body></html>
+INDEX
+    systemctl enable apache2
+    systemctl restart apache2
+else
+    echo "Apache is already installed. Skipping initialization."
+fi
+EOF
+
+gcloud storage cp install-web-optimized.sh $BUCKET_NAME/install-web-optimized.sh</code></pre>
+
+            <h3 style="color: var(--color-text); margin-top: 2.5rem; font-size: 1.8rem; margin-bottom: 1rem;">Summary</h3>
+            <p>Externalizing startup scripts to Cloud Storage is a foundational practice in Google Cloud. By enforcing idempotency, infrastructure teams can modify the behavior of instances dynamically without ever touching the Instance Template or modifying metadata directly, ensuring clean, scalable configuration management.</p>
+            
+            <!-- Mermaid JS -->
+            <script type="module">
+              import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+              mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            </script>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2026 Collins Mesue.</p>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
